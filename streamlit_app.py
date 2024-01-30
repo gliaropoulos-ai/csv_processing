@@ -4,7 +4,7 @@ from csv_preprocessing_functions import to_snake_case, curate_csv_file, input_to
 
 stl.title("CSV Preprocessing for banking")
 
-stl.write("A Computer Science portal for Geeks")
+stl.write("A tool to help automate our finance and backoffice services")
 
 
 
