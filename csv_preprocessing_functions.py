@@ -11,9 +11,7 @@ def to_snake_case(name):
 
 def curate_csv_file(file_name):
     # Read file
-    df = pd.read_csv(file_name, sep=";", encoding= "ISO-8859-7")
-    # df = pd.read_csv(path+file_name, sep=";", encoding= "cp1253")
-    
+    # df = pd.read_csv(file_name, sep=";", encoding= "ISO-8859-7")
     # Rename Columns
     df.columns = ['transaction date', 'value date', 'description', 'amount', 'balance']
     # Keep only rows with transaction date
@@ -29,5 +27,4 @@ def curate_csv_file(file_name):
 
 def input_to_output_csv(file):
     out_file = curate_csv_file(file)
-    # print(f'fixing input file: {file} to output file: {to_snake_case(file)}')
-    return out_file.to_csv(to_snake_case(file), index= False, encoding = "utf-8")
+    return out_file
