@@ -14,17 +14,18 @@ if uploaded_file:
     stl.write("File to be processed: ", uploaded_file.name)
     csv_uploaded_file = pd.read_csv(uploaded_file, sep=";", encoding= "ISO-8859-7")
     data_out = curate_csv_file(csv_uploaded_file)
-    xlsx_output = False
+    # xlsx_output = False
+    xlsx_output = stl.toggle('Export XLSX')
     if xlsx_output:
         buffer = io.BytesIO()
         xlsx_file_name = to_snake_case(uploaded_file.name).replace("csv", "xlsx")
-        stl.write("Output File: ", xlsx_output)
+        stl.write("Output XLSX File: ", xlsx_output)
         with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
             # Write each dataframe to a different worksheet.
             data_out.to_excel(writer, sheet_name='Sheet1', index= False, encoding = "utf-8")
             # Close the Pandas Excel writer and output the Excel file to the buffer
             writer.save()
-            stl.download_button(label= "Download XLSX", data = buffer, file_name = xlsx_file_name, mime="application/vnd.ms-excel")
+            stl.download_button(label= "Download XLSX", data = buffer.getvalue(), file_name = xlsx_file_name, mime="application/vnd.ms-excel")
     else:
         csv_name = to_snake_case(uploaded_file.name)
         stl.write("Output File: ", csv_name)
