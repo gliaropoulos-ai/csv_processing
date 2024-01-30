@@ -13,5 +13,6 @@ from io import StringIO
 uploaded_file = stl.file_uploader("Upload a CSV file" , type=["csv", "xlsx"])
 if uploaded_file:
     stl.write("Filename: ", uploaded_file.name)
-    stl.download_button(label= "Download CSV", data = input_to_output_csv(uploaded_file), file_name = to_snake_case(uploaded_file.name), mime="text/csv")
+    data_out = input_to_output_csv(uploaded_file)
+    stl.download_button(label= "Download CSV", data = data_out.to_csv(index= False, encoding = "utf-8"), file_name = to_snake_case(uploaded_file.name), mime="text/csv")
 
