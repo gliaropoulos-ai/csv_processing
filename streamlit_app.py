@@ -10,7 +10,7 @@ stl.write("A Computer Science portal for Geeks")
 from io import StringIO
 
 uploaded_file = stl.file_uploader("Upload a CSV file")
-output_file = input_to_output_csv(uploaded_file)
-stl.download_button(label= "Download CSV", data = output_file, file_name = to_snake_case(uploaded_file))  
+# output_file = input_to_output_csv(uploaded_file)
+stl.download_button(label= "Download CSV", data = uploaded_file, file_name = to_snake_case(uploaded_file))  
 
 
