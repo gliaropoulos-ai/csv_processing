@@ -25,7 +25,7 @@ if uploaded_file:
             data_out.to_excel(writer, sheet_name='Sheet1', index= False, encoding = "utf-8")
             # Close the Pandas Excel writer and output the Excel file to the buffer
             # writer.save()
-        stl.download_button(label= "Download XLSX", data = buffer.getvalue(), file_name = xlsx_file_name, mime="application/vnd.ms-excel")
+            stl.download_button(label= "Download XLSX", data = buffer.getvalue(), file_name = xlsx_file_name, mime="application/vnd.ms-excel")
     else:
         csv_name = to_snake_case(uploaded_file.name)
         stl.write("Output File: ", csv_name)
