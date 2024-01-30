@@ -27,4 +27,4 @@ if uploaded_file:
     else:
         csv_name = to_snake_case(uploaded_file.name)
         stl.write("Output File: ", csv_name)
-        stl.download_button(label= "Download CSV", data = data_out.to_csv(index= False,encoding="utf-8")  , mime="text/csv")
+        stl.download_button(label= "Download CSV", data = data_out.to_csv(csv_name, index= False,encoding="utf-8")  , mime="text/csv")
