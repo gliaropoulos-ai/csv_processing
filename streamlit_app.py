@@ -11,8 +11,7 @@ stl.write("A Computer Science portal for Geeks")
 from io import StringIO
 
 uploaded_file = stl.file_uploader("Upload a CSV file")
-df = pd.read_csv(uploaded_file, sep=";", encoding= "ISO-8859-7")
+output_file = input_to_output_csv(uploaded_file)
 stl.write("Filename: ", uploaded_file.name)
-# output_file = input_to_output_csv(uploaded_file)
-stl.download_button(label= "Download CSV", data = df, file_name = to_snake_case(uploaded_file.name), mime="text/csv")
+stl.download_button(label= "Download CSV", data = output_file, file_name = to_snake_case(uploaded_file.name), mime="text/csv")
 
