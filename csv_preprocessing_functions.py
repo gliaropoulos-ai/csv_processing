@@ -23,12 +23,11 @@ def curate_csv_file(file_name):
     # Fix amount columns
     df['amount_fix'] = df['amount'].apply(lambda x: float(str(x).replace(".","").replace(",",".")))
     # Fix transaction date
-    df['transaction date_fix'] = pd.to_datetime(df['transaction date'], dayfirst = True)
-    df['transaction date_fix'] = pd.to_datetime(df["date"].dt.strftime('%d-%m-%Y'))
+    df['transaction date_fix'] = pd.to_datetime(df['transaction date'], dayfirst = True , format="%d/%m/%Y")
     df_final = df[['transaction date_fix', 'description', 'amount_fix']]
     return df_final.rename(columns= {'transaction date_fix': 'transaction date', 'amount_fix': 'amount'})
 
 def input_to_output_csv(file):
     out_file = curate_csv_file(file)
     # print(f'fixing input file: {file} to output file: {to_snake_case(file)}')
-    return out_file.to_csv(index= False).encode("utf-8")
+    return out_file.to_csv(to_snake_case(file), index= False, encoding = "utf-8")
