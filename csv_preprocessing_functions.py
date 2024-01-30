@@ -9,7 +9,7 @@ def to_snake_case(name):
     return name.lower()
 
 
-def curate_csv_file(file_name):
+def curate_csv_file(df):
     # Read file
     # df = pd.read_csv(file_name, sep=";", encoding= "ISO-8859-7")
     # Rename Columns
