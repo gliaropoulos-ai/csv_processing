@@ -11,5 +11,6 @@ if uploaded_file:
     stl.write("Filename: ", uploaded_file.name)
     csv_uploaded_file = pd.read_csv(uploaded_file, sep=";", encoding= "ISO-8859-7")
     data_out = curate_csv_file(csv_uploaded_file)
-    stl.download_button(label= "Download XLSX", data = data_out.to_excel(to_snake_case(uploaded_file.name).replace("csv", "xlsx"), index= False, encoding = "utf-8"), file_name = to_snake_case(uploaded_file.name).replace("csv", "xlsx"), mime="application/vnd.ms-excel")
+    xlsx_file_name = to_snake_case(uploaded_file.name).replace("csv", "xlsx")
+    stl.download_button(label= "Download XLSX", data = data_out.to_excel(index= False, encoding = "utf-8"), file_name = xlsx_file_name, mime="application/vnd.ms-excel")
 
