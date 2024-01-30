@@ -1,6 +1,7 @@
 import streamlit as stl
 import io
 import pandas as pd
+import xlsxwriter
 from csv_preprocessing_functions import to_snake_case, curate_csv_file, input_to_output_csv
 
 
