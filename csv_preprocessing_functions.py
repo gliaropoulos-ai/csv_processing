@@ -9,9 +9,9 @@ def to_snake_case(name):
     return name.lower()
 
 
-def curate_csv_file(file_name, path = "eurobank/"):
+def curate_csv_file(file_name):
     # Read file
-    df = pd.read_csv(path+file_name, sep=";", encoding= "ISO-8859-7")
+    df = pd.read_csv(file_name, sep=";", encoding= "ISO-8859-7")
     # df = pd.read_csv(path+file_name, sep=";", encoding= "cp1253")
     
     # Rename Columns
@@ -30,4 +30,5 @@ def curate_csv_file(file_name, path = "eurobank/"):
 def input_to_output_csv(file):
     out_file = curate_csv_file(file)
     print(f'fixing input file: {file} to output file: {to_snake_case(file)}')
-    out_file.to_csv(to_snake_case(file), index= False,encoding="utf-8", date_format='%d-%m-%Y')  
+    return out_file.to_csv(to_snake_case(file), index= False,encoding="utf-8", date_format='%d-%m-%Y')  
+    
