@@ -30,5 +30,5 @@ def curate_csv_file(file_name):
 
 def input_to_output_csv(file):
     out_file = curate_csv_file(file)
-    print(f'fixing input file: {file} to output file: {to_snake_case(file)}')
+    # print(f'fixing input file: {file} to output file: {to_snake_case(file)}')
     return out_file.to_csv(to_snake_case(file), index= False,encoding="utf-8")
