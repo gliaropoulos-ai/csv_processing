@@ -15,17 +15,18 @@ if uploaded_file:
     stl.write("File to be processed: ", uploaded_file.name)
     csv_uploaded_file = pd.read_csv(uploaded_file, sep=";", encoding= "ISO-8859-7")
     data_out = curate_csv_file(csv_uploaded_file)
+    clean_name = to_snake_case(uploaded_file.name)
     xlsx_output = stl.toggle('Export XLSX')
     if xlsx_output:
-        xlsx_file_name = to_snake_case(uploaded_file.name).replace(".csv", ".xlsx")
+        xlsx_file_name =clean_name.replace(".csv", ".xlsx")
         stl.write("Output XLSX File: ", xlsx_file_name)
         zip_file = ZipFile("export.zip", mode="w")
-        zip_file.writestr(xlsx_file_name, data_out.to_csv(index=False).encode())
+        zip_file.writestr(clean_name, data_out.to_csv(index=False).encode())
         # zip_file.writestr(xlsx_file_name, data_out.to_excel(index= False,encoding="utf-8"))
         zip_file.close()
         with open("export.zip", mode="rb") as zf:
             stl.download_button(label= "Download zipped XLSX", data = zf, file_name = "export.zip")
     else:
-        csv_name = to_snake_case(uploaded_file.name)
+        csv_name = clean_name
         stl.write("Output File: ", csv_name)
         stl.download_button(label= "Download CSV", data = data_out.to_csv(index= False,encoding="utf-8"), file_name = csv_name, mime="text/csv")
