@@ -1,7 +1,7 @@
 import streamlit as stl
 import io
 import pandas as pd
-import ZipFile
+import zipfile
 from csv_preprocessing_functions import to_snake_case, curate_csv_file, input_to_output_csv
 
 
@@ -19,7 +19,7 @@ if uploaded_file:
     if xlsx_output:
         xlsx_file_name = to_snake_case(uploaded_file.name).replace(".csv", ".xlsx")
         stl.write("Output XLSX File: ", xlsx_file_name)
-        zip_file = ZipFile("export.zip", mode="w")
+        zip_file = zipfile("export.zip", mode="w")
         zip_file.writestr(xlsx_file_name, data_out.to_excel(index= False,encoding="utf-8"))
         zip_file.close()
         with open("export.zip", mode="rb") as zf:
