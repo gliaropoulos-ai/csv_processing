@@ -113,4 +113,5 @@ wcwidth==0.2.13
 webcolors==1.13
 webencodings==0.5.1
 websocket-client==1.7.0
+XlsxWriter==3.1.9
 zipp==3.17.0
