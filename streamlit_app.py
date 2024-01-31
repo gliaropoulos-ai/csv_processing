@@ -1,6 +1,7 @@
 import streamlit as stl
 import io
 import pandas as pd
+import ZipFile
 from csv_preprocessing_functions import to_snake_case, curate_csv_file, input_to_output_csv
 
 
@@ -18,19 +19,11 @@ if uploaded_file:
     if xlsx_output:
         xlsx_file_name = to_snake_case(uploaded_file.name).replace(".csv", ".xlsx")
         stl.write("Output XLSX File: ", xlsx_file_name)
-        output = io.BytesIO()
-        writer = pd.ExcelWriter(xlsx_file_name,engine='xlsxwriter')  
-        data_out.to_excel(excel_writer=writer, sheet_name='Sheet1', startrow=0 , startcol=0, index= False, encoding = "utf-8")
-        writer.close() 
-        stl.download_button(label= "Download XLSX", data = output.getvalue(), file_name = xlsx_file_name, mime="application/vnd.ms-excel")
-
-        # with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
-        #     # Write each dataframe to a different worksheet.
-        #     data_out.to_excel(writer, sheet_name='Sheet1', index= False, encoding = "utf-8")
-        #     writer.save()
-        #     # Close the Pandas Excel writer and output the Excel file to the buffer
-        #     # writer.save()
-        #     stl.download_button(label= "Download XLSX", data = buffer.getvalue(), file_name = xlsx_file_name, mime="application/vnd.ms-excel")
+        zip_file = ZipFile("export.zip", mode="w")
+        zip_file.writestr(xlsx_file_name, data_out.to_excel(index= False,encoding="utf-8"))
+        zip_file.close()
+        with open("export.zip", mode="rb") as zf:
+            stl.download_button(label= "Download zipped XLSX", data = zf, file_name = "export.zip")
     else:
         csv_name = to_snake_case(uploaded_file.name)
         stl.write("Output File: ", csv_name)
