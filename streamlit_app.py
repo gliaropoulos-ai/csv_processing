@@ -1,5 +1,6 @@
 import streamlit as stl
 import io
+import xlsxwriter
 import pandas as pd
 from csv_preprocessing_functions import to_snake_case, curate_csv_file, input_to_output_csv
 
@@ -14,18 +15,24 @@ if uploaded_file:
     stl.write("File to be processed: ", uploaded_file.name)
     csv_uploaded_file = pd.read_csv(uploaded_file, sep=";", encoding= "ISO-8859-7")
     data_out = curate_csv_file(csv_uploaded_file)
-    buffer = io.BytesIO()
     xlsx_output = stl.toggle('Export XLSX')
     if xlsx_output:
         xlsx_file_name = to_snake_case(uploaded_file.name).replace(".csv", ".xlsx")
         stl.write("Output XLSX File: ", xlsx_file_name)
-        with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
-            # Write each dataframe to a different worksheet.
-            data_out.to_excel(writer, sheet_name='Sheet1', index= False, encoding = "utf-8")
-            writer.save()
-            # Close the Pandas Excel writer and output the Excel file to the buffer
-            # writer.save()
-            stl.download_button(label= "Download XLSX", data = buffer.getvalue(), file_name = xlsx_file_name, mime="application/vnd.ms-excel")
+        output = io.BytesIO()
+        workbook = xlsxwriter.Workbook(output, {'in_memory': True})
+        worksheet = workbook.add_worksheet()
+        worksheet.write(data_out)
+        workbook.close()
+        stl.download_button(label= "Download XLSX", data = output.getvalue(), file_name = xlsx_file_name, mime="application/vnd.ms-excel")
+
+        # with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
+        #     # Write each dataframe to a different worksheet.
+        #     data_out.to_excel(writer, sheet_name='Sheet1', index= False, encoding = "utf-8")
+        #     writer.save()
+        #     # Close the Pandas Excel writer and output the Excel file to the buffer
+        #     # writer.save()
+        #     stl.download_button(label= "Download XLSX", data = buffer.getvalue(), file_name = xlsx_file_name, mime="application/vnd.ms-excel")
     else:
         csv_name = to_snake_case(uploaded_file.name)
         stl.write("Output File: ", csv_name)
