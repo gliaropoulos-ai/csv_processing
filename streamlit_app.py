@@ -20,10 +20,9 @@ if uploaded_file:
         xlsx_file_name = to_snake_case(uploaded_file.name).replace(".csv", ".xlsx")
         stl.write("Output XLSX File: ", xlsx_file_name)
         output = io.BytesIO()
-        workbook = xlsxwriter.Workbook(output, {'in_memory': True})
-        worksheet = workbook.add_worksheet()
-        worksheet.write(data_out)
-        workbook.close()
+        writer = pd.ExcelWriter(xlsx_file_name,engine='xlsxwriter')  
+        data_out.to_excel(excel_writer=writer, sheet_name='Sheet1', startrow=0 , startcol=0, index= False, encoding = "utf-8")
+        writer.close() 
         stl.download_button(label= "Download XLSX", data = output.getvalue(), file_name = xlsx_file_name, mime="application/vnd.ms-excel")
 
         # with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
