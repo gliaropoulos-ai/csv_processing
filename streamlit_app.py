@@ -20,12 +20,9 @@ if uploaded_file:
     if xlsx_output:
         xlsx_file_name =clean_name.replace(".csv", ".xlsx")
         stl.write("Output XLSX File: ", xlsx_file_name)
-        zip_file = ZipFile("export.zip", mode="w")
-        zip_file.writestr(clean_name, data_out.to_csv(index=False).encode())
-        # zip_file.writestr(xlsx_file_name, data_out.to_excel(index= False,encoding="utf-8"))
-        zip_file.close()
-        with open("export.zip", mode="rb") as zf:
-            stl.download_button(label= "Download zipped XLSX", data = zf, file_name = "export.zip")
+        data_out.to_excel(xlsx_file_name, index=False)
+        with open(xlsx_file_name, mode="rb") as zf:
+            stl.download_button(label= "Download XLSX", data = zf, file_name = xlsx_file_name)
     else:
         csv_name = clean_name
         stl.write("Output File: ", csv_name)
