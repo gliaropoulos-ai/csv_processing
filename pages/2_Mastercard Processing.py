@@ -9,11 +9,11 @@ stl.title("CSV Preprocessing for banking")
 
 stl.write("A tool to help automate our finance and backoffice services")
 
-uploaded_file = stl.file_uploader("Upload a CSV file" , type=["csv", "xlsx"])
+uploaded_file = stl.file_uploader("Upload an Excel File" , type=["xlsx"])
 if uploaded_file:
     stl.write("File to be processed: ", uploaded_file.name)
-    csv_uploaded_file = pd.read_excel(uploaded_file)
-    out_files, csv_names = curate_csv_file_generic(csv_uploaded_file, uploaded_file.name, break_by_column = "Card Member Name" ,fix_amount_with_dots = False, export_each_csv = False)
+    xlsx_uploaded_file = pd.read_excel(uploaded_file)
+    out_files, csv_names = curate_csv_file_generic(xlsx_uploaded_file, uploaded_file.name, break_by_column = "Card Member Name" ,fix_amount_with_dots = False, export_each_csv = False)
     xlsx_output = stl.toggle('Export XLSX')
     for  out_file, csv_name in out_files, csv_names:
         stl.write("Output File: ", csv_name)
