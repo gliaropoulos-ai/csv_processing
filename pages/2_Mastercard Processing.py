@@ -14,7 +14,6 @@ if uploaded_file:
     stl.write("File to be processed: ", uploaded_file.name)
     xlsx_uploaded_file = pd.read_excel(uploaded_file)
     out_files, csv_names = curate_csv_file_generic(xlsx_uploaded_file, uploaded_file.name, break_by_column = "Card Member Name" ,fix_amount_with_dots = False, export_each_csv = False)
-    xlsx_output = stl.toggle('Export XLSX')
-    for  out_file, csv_name in out_files, csv_names:
+    for  out_file, csv_name in zip(out_files, csv_names):
         stl.write("Output File: ", csv_name)
         stl.download_button(label= "Download CSV", data = out_file.to_csv(index= False,encoding="utf-8"), file_name = csv_name, mime="text/csv")
