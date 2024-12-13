@@ -12,7 +12,7 @@ stl.write("A tool to help automate our finance and backoffice services")
 uploaded_file = stl.file_uploader("Upload a CSV file" , type=["csv", "xlsx"])
 if uploaded_file:
     stl.write("File to be processed: ", uploaded_file.name)
-    csv_uploaded_file = pd.read_csv(uploaded_file, sep=";", encoding= "ISO-8859-7")
+    csv_uploaded_file = pd.read_excel(uploaded_file)
     out_files, csv_names = curate_csv_file_generic(csv_uploaded_file, uploaded_file.name, break_by_column = "Card Member Name" ,fix_amount_with_dots = False, export_each_csv = False)
     xlsx_output = stl.toggle('Export XLSX')
     for  out_file, csv_name in out_files, csv_names:
