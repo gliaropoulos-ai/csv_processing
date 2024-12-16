@@ -5,9 +5,9 @@ from zipfile import ZipFile
 from csv_preprocessing_functions import to_snake_case, curate_csv_file_generic, input_to_output_csv
 
 
-stl.title("CSV Preprocessing for banking")
+stl.title("Preprocessing for Mastercard transactions")
 
-stl.write("A tool to help automate our finance and backoffice services")
+stl.write("A tool to sync Mastercard transactions with Quickbook")
 
 uploaded_file = stl.file_uploader("Upload an Excel File" , type=["xlsx"])
 if uploaded_file:
