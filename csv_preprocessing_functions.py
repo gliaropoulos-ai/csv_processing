@@ -231,4 +231,4 @@ def nbg_xlsx_preprocessing(df):
     df['Ισοτιμία'] = None
     df['Είδος εργασίας'] = None
 
-    return df
+    return df[df_cols_to_export]
