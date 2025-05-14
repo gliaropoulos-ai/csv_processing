@@ -187,3 +187,35 @@ def alphabank_csv_preprocessing(csv_data):
 
 def peiraios_xlsx_preprocessing(df):
     return df.drop(df.columns[3], axis=1)
+
+def nbg_xlsx_preprocessing(df):
+
+    # Remove first 3 columns
+    df= df.drop(df.columns[0:3], axis=1)
+
+    # Replace values in column 'Χρέωση / Πίστωση':  'X' -> 'Χρέωση' , 'Π' -> 'Πίστωση'
+    dict_to_replace = {'Χ':'Χρέωση', 'Π': 'Πίστωση'}
+    df['Χρέωση / Πίστωση'] = df['Χρέωση / Πίστωση'].replace(dict_to_replace)
+
+    # Transform Values in column 'Ποσό'
+    def fix_amount_sign(row):
+        if row['Χρέωση / Πίστωση'] == 'Χρέωση':
+            row['Ποσό'] = -1 * row['Ποσό']
+        else:
+            row['Ποσό'] = row['Ποσό']
+        return row
+
+    df = df.apply(fix_amount_sign, axis=1)
+
+    # Rename columns
+    dict_to_col_rename = {'Συναλλαγή':'Κατηγορία συναλλαγής', 'Ποσό': 'Ποσό συναλλαγής'}
+    df.rename(columns=dict_to_col_rename, inplace = True)
+
+    # Duplicate columns 
+    df['Ποσό εντολής'] = df['Ποσό συναλλαγής']
+
+    # Create empty columns
+    df['Ισοτιμία'] = None
+    df['Είδος εργασίας'] = None
+
+    return df
