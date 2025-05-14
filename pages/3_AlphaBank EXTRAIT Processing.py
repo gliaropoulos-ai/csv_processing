@@ -13,7 +13,7 @@ stl.write("A tool to sync Alphabank transactions with EXTRAIT")
 uploaded_file = stl.file_uploader("Upload a CSV File" , type=["csv"])
 if uploaded_file:
     stl.write("File to be processed: ", uploaded_file.name)
-    csv_data = read_streamlit_csv_file(uploaded_file, enc= 'utf-8')
+    csv_data = read_streamlit_csv_file(uploaded_file, encoding= 'utf-8')
     
     # with open(uploaded_file, 'r', encoding='utf-8') as f:
     #     reader = csv.reader(f, delimiter=';')
