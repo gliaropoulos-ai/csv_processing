@@ -3,7 +3,7 @@ import io
 import csv
 import pandas as pd
 from zipfile import ZipFile
-from csv_preprocessing_functions import to_snake_case, read_streamlit_csv_file, curate_csv_file_generic, input_to_output_csv, alphabank_csv_preprocessing
+from csv_preprocessing_functions import to_snake_case, read_streamlit_csv_file, write_streamlit_csv_file, curate_csv_file_generic, input_to_output_csv, alphabank_csv_preprocessing
 
 
 stl.title("Preprocessing for Alphabank transactions")
@@ -23,4 +23,4 @@ if uploaded_file:
 
     csv_fixed_name = uploaded_file.name
     stl.write("Output File: ", csv_fixed_name)
-    stl.download_button(label= "Download CSV", data = csv_fixed_data.to_csv(index= False,encoding="utf-8"), file_name = csv_fixed_name, mime="text/csv")
+    stl.download_button(label= "Download CSV", data = write_streamlit_csv_file(csv_fixed_data, delimiter=';', encoding='utf-8'), file_name = csv_fixed_name, mime="text/csv")

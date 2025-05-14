@@ -11,23 +11,49 @@ def detect_encoding(file_path):
     return result['encoding'], result['confidence']
 
 
-def read_streamlit_csv_file(file_input, enc= 'utf-8'):
+def read_streamlit_csv_file(file_input, encoding='utf-8'):
     """
     Universal function to read CSV files from Streamlit uploaded file
     
     Args:
         file_input: Either a Streamlit UploadedFile object or a string path
-        enc: encoding used to open the csv file
+        encoding: encoding used to open the csv file
         
     Returns:
         List of lists containing the CSV data
     """
 
-    text_io = io.StringIO(file_input.getvalue().decode(enc))
+    text_io = io.StringIO(file_input.getvalue().decode(encoding))
     reader = csv.reader(text_io, delimiter=';')
     csv_data = list(reader)
 
     return csv_data
+
+def write_streamlit_csv_file(csv_data, delimiter=';', encoding='utf-8'):
+    """
+    Universal function to write CSV files to either:
+    1. A downloadable file in Streamlit
+    2. A local file path
+    
+    Args:
+        csv_data: List of lists containing the CSV data
+        output_destination: Either 'streamlit' or a string file path
+        delimiter: CSV delimiter (default ';')
+        encoding: File encoding (default 'utf-8')
+        
+    Returns:
+        For Streamlit: returns the CSV data as bytes for download
+        For local file: returns True if successful, False otherwise
+    """
+    if not csv_data:
+        return None
+        
+    # Create CSV string from data
+    output = io.StringIO()
+    writer = csv.writer(output, delimiter=delimiter)
+    writer.writerows(csv_data)
+    csv_string = output.getvalue()
+    return csv_string.encode(encoding)
 
 def read_csv_with_proper_encoding(file_path):
     """Read a CSV file with the proper encoding."""
