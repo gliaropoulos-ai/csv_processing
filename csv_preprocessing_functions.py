@@ -1,5 +1,65 @@
 import pandas as pd
 import re
+import chardet
+import csv
+import io
+
+def detect_encoding(file_path):
+    """Detect the encoding of a file."""
+    with open(file_path, 'rb') as f:
+        result = chardet.detect(f.read())
+    return result['encoding'], result['confidence']
+
+
+def read_csv_with_proper_encoding(file_path):
+    """Read a CSV file with the proper encoding."""
+    encoding, confidence = detect_encoding(file_path)
+    print(f"Detected encoding: {encoding} with confidence: {confidence}")
+    
+    # Common encodings for Greek text include:
+    # ISO-8859-7, Windows-1253, CP1253, or ISO-8859-1
+    # If the detected encoding doesn't work, we'll try these
+    encodings_to_try = [encoding, 'ISO-8859-7', 'Windows-1253', 'CP1253', 'ISO-8859-1']
+    
+    for enc in encodings_to_try:
+        try:
+            # Try to read using pandas (good for structured data)
+            df = pd.read_csv(file_path, encoding=enc, sep=';')
+            print(f"Successfully read with encoding: {enc} using pandas")
+            return df, enc
+        except UnicodeDecodeError:
+            print(f"Failed to read with encoding: {enc} using pandas")
+        except Exception as e:
+            print(f"Other error with encoding {enc}: {str(e)}")
+            
+        try:
+            # Fallback: Try to read using csv module (more flexible)
+            with open(file_path, 'r', encoding=enc) as f:
+                reader = csv.reader(f, delimiter=';')
+                data = list(reader)
+            print(f"Successfully read with encoding: {enc} using csv module")
+            return data, enc
+        except UnicodeDecodeError:
+            print(f"Failed to read with encoding: {enc} using csv module")
+        except Exception as e:
+            print(f"Other error with encoding {enc}: {str(e)}")
+    
+    return None, None
+
+# If you need to write the files back with a specific encoding:
+def write_csv_with_encoding(data, file_path, encoding='utf-8'):
+    """Write data to a CSV file with the specified encoding."""
+    if isinstance(data, pd.DataFrame):
+        data.to_csv(file_path, encoding=encoding, sep=';', index=False)
+    else:  # Assuming list of lists
+        with open(file_path, 'w', encoding=encoding, newline='') as f:
+            writer = csv.writer(f, delimiter=';')
+            writer.writerows(data)
+    print(f"Successfully wrote to {file_path} with encoding {encoding}")
+
+def fix_date_name_in_csv(column_name):
+    if str.strip(column_name) == 'Ημερομηνία':
+        return 'Ημ/νία'
 
 def to_snake_case(name):
     name = str(name).replace(" ", "_")
@@ -73,3 +133,10 @@ def input_to_output_multiple_csv(file, filename):
 def input_to_output_csv(file):
     out_file = curate_csv_file(file)
     return out_file
+
+
+def alphabank_csv_preprocessing(csv_data):
+    csv_data[1][0] = fix_date_name_in_csv(csv_data[1][0])
+    csv_data[5][1] = fix_date_name_in_csv(csv_data[5][1])
+    csv_data.pop(4)
+    return csv_data
