@@ -189,7 +189,20 @@ def peiraios_xlsx_preprocessing(df):
     return df.drop(df.columns[3], axis=1)
 
 def nbg_xlsx_preprocessing(df):
-
+    df_cols_to_export = ['Α/Α Συναλλαγής',
+        'Ημερομηνία',
+        'Ώρα',
+        'Valeur',
+        'Κατάστημα',
+        'Κατηγορία συναλλαγής',
+        'Είδος εργασίας',
+        'Ποσό συναλλαγής',
+        'Ποσό εντολής',
+        'Νόμισμα',
+        'Χρέωση / Πίστωση',
+        'Ισοτιμία',
+        'Περιγραφή',
+        'Λογιστικό Υπόλοιπο']
     # Remove first 3 columns
     df= df.drop(df.columns[0:3], axis=1)
 
