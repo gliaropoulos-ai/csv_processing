@@ -6,9 +6,9 @@ from zipfile import ZipFile
 from csv_preprocessing_functions import to_snake_case, read_streamlit_csv_file, write_streamlit_csv_file, curate_csv_file_generic, input_to_output_csv, nbg_xlsx_preprocessing
 
 
-stl.title("Preprocessing for Peiraios transactions")
+stl.title("Preprocessing for Ethniki Trapeza transactions")
 
-stl.write("A tool to sync Peiraios transactions with EXTRAIT")
+stl.write("A tool to sync Ethniki Trapeza transactions with EXTRAIT")
 
 uploaded_file = stl.file_uploader("Upload a XLSX File" , type=["xlsx"])
 if uploaded_file:
