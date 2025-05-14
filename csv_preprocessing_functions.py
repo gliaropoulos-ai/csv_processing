@@ -184,3 +184,6 @@ def alphabank_csv_preprocessing(csv_data):
     csv_data[5][1] = fix_date_name_in_csv(csv_data[5][1])
     csv_data.pop(4)
     return csv_data
+
+def peiraios_xlsx_preprocessing(df):
+    return df.drop(df.columns[3], axis=1)
