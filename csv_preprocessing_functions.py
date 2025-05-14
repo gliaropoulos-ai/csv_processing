@@ -186,6 +186,11 @@ def alphabank_csv_preprocessing(csv_data):
     return csv_data
 
 def peiraios_xlsx_preprocessing(df):
+    if len(df.columns) == 7:
+        df['Unnamed: 7'] = None
+        df['Unnamed: 8'] = None
+        df.loc[4, 'Unnamed: 7'] = 'Προοδευτικό Λογιστικό Υπόλοιπο'
+        df.loc[4, 'Unnamed: 8'] = 'Νόμισμα'
     return df.drop(df.columns[3], axis=1)
 
 def nbg_xlsx_preprocessing(df):
