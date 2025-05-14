@@ -3,7 +3,7 @@ import io
 import csv
 import pandas as pd
 from zipfile import ZipFile
-from csv_preprocessing_functions import to_snake_case, curate_csv_file_generic, input_to_output_csv, alphabank_csv_preprocessing
+from csv_preprocessing_functions import to_snake_case, read_streamlit_csv_file, curate_csv_file_generic, input_to_output_csv, alphabank_csv_preprocessing
 
 
 stl.title("Preprocessing for Alphabank transactions")
@@ -13,9 +13,7 @@ stl.write("A tool to sync Alphabank transactions with EXTRAIT")
 uploaded_file = stl.file_uploader("Upload a CSV File" , type=["csv"])
 if uploaded_file:
     stl.write("File to be processed: ", uploaded_file.name)
-    content = uploaded_file.getvalue() 
-    reader = csv.reader(content, delimiter=';')
-    csv_data = list(reader)
+    csv_data = read_streamlit_csv_file(uploaded_file, enc= 'utf-8')
     
     # with open(uploaded_file, 'r', encoding='utf-8') as f:
     #     reader = csv.reader(f, delimiter=';')

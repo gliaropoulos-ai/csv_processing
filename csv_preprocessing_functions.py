@@ -11,6 +11,24 @@ def detect_encoding(file_path):
     return result['encoding'], result['confidence']
 
 
+def read_streamlit_csv_file(file_input, enc= 'utf-8'):
+    """
+    Universal function to read CSV files from Streamlit uploaded file
+    
+    Args:
+        file_input: Either a Streamlit UploadedFile object or a string path
+        enc: encoding used to open the csv file
+        
+    Returns:
+        List of lists containing the CSV data
+    """
+
+    text_io = io.StringIO(file_input.getvalue().decode(enc))
+    reader = csv.reader(text_io, delimiter=';')
+    csv_data = list(reader)
+
+    return csv_data
+
 def read_csv_with_proper_encoding(file_path):
     """Read a CSV file with the proper encoding."""
     encoding, confidence = detect_encoding(file_path)
