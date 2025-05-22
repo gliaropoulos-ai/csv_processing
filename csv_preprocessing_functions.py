@@ -237,3 +237,13 @@ def nbg_xlsx_preprocessing(df):
     df['Είδος εργασίας'] = None
 
     return df[df_cols_to_export]
+
+def check_and_replace_str(x):
+    if isinstance(x, str):
+        return x.replace(' EUR','')
+    else:
+        return x
+
+def optima_xlsx_preprocessing(df):
+    df['Unnamed: 3'] = df['Unnamed: 3'].apply(lambda x: check_and_replace_str(x))
+    return df
